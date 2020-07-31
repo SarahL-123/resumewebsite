@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+
+{% block title%}
+    <title>Login</title>
+{% endblock %}
+
+{% block content %}
+
+    <div class="textcontainer">
+
+        <h1>Login</h1>
+        <p>Log in to add or edit pages</p>
+        <p>There is no option (on this site) to create a user since obviously I don't want random people to delete or edit the site!</p>
+
+        <div style="max-width: 500px;"></div>
+        <form method="POST">
+            {{form.hidden_tag()}}
+            <div class="form-group" style="max-width: 300px;">
+                {{form.username.label(class="form-control-label")}}
+                {{form.username(class="form-control")}}
+
+            </div>
+
+            <div class="form-group" style="max-width: 300px;">
+
+                {{form.password.label(class="form-control-label")}}
+                {{form.password(class="form-control")}}
+            </div>
+
+            {{form.submit(class="btn btn-primary")}}
+
+
+        </form>
+
+        
+        {% if errormessage is defined %}
+        <h3 style="color: red;">{{errormessage}}</h2>
+
+        {% endif %}
+
+    </div>
+    
+
+{% endblock %}

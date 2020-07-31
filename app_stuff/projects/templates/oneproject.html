@@ -1,0 +1,90 @@
+
+{% extends "base.html" %}
+
+
+{% block title%}
+    <title>{{project.title}}</title>
+{% endblock %}
+
+{% block content %}
+    <div class="textcontainer">
+        <h1>{{project.title}}</h1>
+
+        <p>{{formattedtext|safe}}</p>
+    </div>
+
+    <!-- Carousel-->
+    <div id="carouselExampleControls" class="carousel slide mx-auto" data-ride="carousel">
+        <div class="carousel-inner">
+
+            {% for onepic in piclist %}
+                {% if loop.index0 == 0 %}
+                    <div class="carousel-item active">
+                        <a data-target="#modalpopup{{onepic.id}}" role="button" data-toggle="modal">
+                            <img src="{{ S3_LOCATION+onepic.filename }}" class="d-block w-100" alt="..." id="a_carousel_image">
+                        </a>
+                    </div>
+                {% else %}
+                    <div class="carousel-item">
+                        <a data-target="#modalpopup{{onepic.id}}" role="button" data-toggle="modal">
+                            <img src="{{ S3_LOCATION+onepic.filename }}" class="d-block w-100" alt="..." id="a_carousel_image">
+                        </a>
+                    </div>
+                {% endif %}
+
+            {% endfor %}
+
+        </div>
+        <a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">
+          <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+          <span class="sr-only">Previous</span>
+        </a>
+        <a class="carousel-control-next" href="#carouselExampleControls" role="button" data-slide="next">
+          <span class="carousel-control-next-icon" aria-hidden="true"></span>
+          <span class="sr-only">Next</span>
+        </a>
+      </div>
+
+      <!-- This div is just to center the text-->
+    {% if piclist is defined and piclist[0] is defined %}
+    <div style="text-align: center;">
+      <p>Click image to enlarge, click the sides for next/prev images</p>
+    </div>
+    {% endif %}
+
+    {% if current_user.is_authenticated %}
+    <div style="padding:30px;">
+        <a href="{{url_for('admin.editpage', pagetitle=project.tag)}}">
+            <button type="button" class="btn btn-primary" style="float:right;">Edit page</button>
+        </a>
+    </div>
+    {% endif %}
+
+    <br>
+    <br>
+
+      <!-- Modal popups here -->
+      {% for onepic in piclist %}
+        <!-- Modal -->
+        <div class="modal fade" id="modalpopup{{onepic.id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+            <div class="modal-dialog" role="document" id="project_modal_dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <!-- Note for future me: the style width 100% below is what makes the pic fit into the modal!-->
+                        <img src="{{ S3_LOCATION+onepic.filename }}" alt="" style="width: 100%;">
+
+                    </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+      {% endfor %}
+
+
+{% endblock %}

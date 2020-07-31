@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+
+{% block title%}
+    <title>Sarah's Website</title>
+    
+{% endblock %}
+
+{% block content %}
+    <div class="textcontainer">
+        <h1>Welcome to my site</h1>
+        <p>Hi, I'm Sarah Lim and here's the projects I've worked on. Click here to find out more about this website</p>
+    </div>
+    
+    <div class="container-fluid" id="home_card_table">
+
+        <div class="row justify-content-center">
+            {% for onetuple in data_tuple%}
+            
+            <div class="card" style="width: 18rem;">
+                <a href="{{url_for('projects.projectpage', project_name=onetuple[0].tag)}}">
+                    <img src="{{onetuple[1]}}" class="card-img-top" alt="img not found">
+                </a>
+                <div class="card-body">
+                    <a href="{{url_for('projects.projectpage', project_name=onetuple[0].tag)}}">
+                        <h5 class="card-title">{{onetuple[0].title}}</h5>
+                        <p class="card-text">{{onetuple[2]|truncate(90)}}</p>
+                    </a>
+                </div>
+            </div>
+            
+            {% endfor %}
+        </div>
+
+    </div>
+
+{% endblock %}

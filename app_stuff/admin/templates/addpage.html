@@ -1,0 +1,84 @@
+<!-- For adding a web page -->
+
+{% extends "base.html" %}
+
+{% block title%}
+    <title>Add a project</title>
+{% endblock %}
+
+
+{% block content %}
+    
+
+    <div class="textcontainer">
+        <h2>{{form.header}}</h2>
+
+        <form method="POST" enctype="multipart/form-data">
+            {{form.hidden_tag()}}
+    
+            <div class="form-group">
+                {{form.tag.label(class="form-control-label")}}
+                {{form.tag(class="form-control")}}
+                {% for error in form.tag.errors %}
+                    <span style="color:red;">{{error}}</span>
+                {% endfor %}
+            </div>
+    
+            <div class="form-group">
+                {{form.title.label(class="form-control-label")}}
+                {{form.title(class="form-control")}}
+                {% for error in form.title.errors %}
+                <span style="color:red;">{{error}}</span>
+                {% endfor %}
+                
+            </div>
+
+            
+
+            <div class="form-group">
+                {{form.text.label(class="form-control-label")}}
+                {{form.text(rows="20", class="form-control")}}
+                {% for error in form.text.errors %}
+                    <span style="color:red;">{{error}}</span>
+                {% endfor %}
+                
+            </div>
+    
+            <p>Note: format text using PyTextile</p>
+            <ul>
+                <li>_text_ is <em>text</em></li>
+                <li>"Text":https://google.com creates a link: <a href="https://google.com">Text</a></li>
+                <li>* for a list item (note: you need the space after the *)</li>
+            </ul>
+
+            <hr>
+            <div class="form-group">
+                Picture for home page (optional, size is 266(x) by 300(y) pixels):
+                {{form.homepagepicture(class="form-control-file")}}
+            </div>
+    
+            <div class="form-group">
+                Upload pictures (optional):
+                {{form.pictures(class="form-control-file")}}
+            </div>
+                
+            {% block extraboolean %}
+                <!-- This is for the update page so it has an extra toggle-->
+            {% endblock %}
+            
+            <hr>
+
+            {{form.submit(class="btn btn-primary")}}
+    
+        </form>
+
+
+        {% block deletepage %}
+                <!-- On the update page this will show a button for 'delete this page' -->
+        {% endblock %}
+
+
+    </div>
+
+    
+{% endblock %}
