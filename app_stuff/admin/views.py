@@ -278,6 +278,7 @@ def createaccount():
         if (CREATE_ACC_ID_ENV is None) or (CREATE_ACC_PW_HASH_ENV is None):
             # tell user that they need to set up these variables
             message = "You didn't set up the environment variables"
+            print("env variables not set up")
             return render_template("createuser.html", form=form, message=message)
     
         # 2) check that it's actually correct

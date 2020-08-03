@@ -85,7 +85,7 @@ class CreateUserForm(FlaskForm):
     # These two are matched against the environment variable so you can only create an account if you know them
     # Also the vars must exist, if they don't then it won't let you create account.
     CREATE_ACC_ID = StringField("Environment variable: CREATE_ACC_ID", validators=[DataRequired()])
-    CREATE_ACC_PW = PasswordField("Environment variable: CREATE_ACC_PW_HASH", validators=[DataRequired()])
+    CREATE_ACC_PW = PasswordField("Environment variable: CREATE_ACC_PW_HASH (put the hashed version as env var, type the non hashed version in here)", validators=[DataRequired()])
     
     username = StringField("Select a username", validators=[DataRequired()])
     password = PasswordField("Select a password", validators=[
