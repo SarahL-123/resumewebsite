@@ -12,7 +12,7 @@ from app_stuff.models import AdminUser
 app = Flask(__name__)
 
 
-app.config["SECRET_KEY"] = os.environ.get("SECRET_KEY") or "mysecretkeyfortesting"
+app.config["SECRET_KEY"] = os.environ.get("APP_SECRET_KEY") or "testsecretkey"
 
 basedir = os.path.abspath(os.path.dirname(__file__))
 app.config["SQLALCHEMY_DATABASE_URI"] = os.environ.get(

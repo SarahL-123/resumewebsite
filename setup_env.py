@@ -14,3 +14,5 @@ print(os.getenv("CREATE_ACC_PW_HASH"))
 hashedpw = str(os.getenv("CREATE_ACC_PW_HASH"))
 
 print(check_password_hash(hashedpw, "123"))
+
+print(os.urandom(32))
