@@ -1,4 +1,3 @@
-
 # Import other peoples stuff
 from app_stuff import db, app
 from flask import render_template, Blueprint, url_for
@@ -29,16 +28,16 @@ def home():
         ).first()
 
         if projectimage is not None:
-            #this one is for the static folder but now we are using AWS S3
+            # this one is for the static folder but now we are using AWS S3
             # fullpath = url_for(
             #     "static", filename="project_pics/" + projectimage.filename
             # )
 
             # Use the one on AWS
-            fullpath = app.config['S3_LOCATION'] + projectimage.filename
+            fullpath = app.config["S3_LOCATION"] + projectimage.filename
 
         else:
-            fullpath = app.config['S3_LOCATION'] + "noimage.png"
+            fullpath = app.config["S3_LOCATION"] + "noimage.png"
 
         # Use textile to convert into html tags and stuff
         project_text = textile.textile(oneproject.text)

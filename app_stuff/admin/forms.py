@@ -84,31 +84,46 @@ class LoginForm(FlaskForm):
 class CreateUserForm(FlaskForm):
     # These two are matched against the environment variable so you can only create an account if you know them
     # Also the vars must exist, if they don't then it won't let you create account.
-    CREATE_ACC_ID = StringField("Environment variable: CREATE_ACC_ID", validators=[DataRequired()])
-    CREATE_ACC_PW = PasswordField("Environment variable: CREATE_ACC_PW_HASH (put the hashed version as env var, type the non hashed version in here)", validators=[DataRequired()])
-    
+    CREATE_ACC_ID = StringField(
+        "Environment variable: CREATE_ACC_ID", validators=[DataRequired()]
+    )
+    CREATE_ACC_PW = PasswordField(
+        "Environment variable: CREATE_ACC_PW_HASH (put the hashed version as env var, type the non hashed version in here)",
+        validators=[DataRequired()],
+    )
+
     username = StringField("Select a username", validators=[DataRequired()])
-    password = PasswordField("Select a password", validators=[
-        DataRequired(),
-        EqualTo('password_confirm', message="Passwords must match")
-        ])
+    password = PasswordField(
+        "Select a password",
+        validators=[
+            DataRequired(),
+            EqualTo("password_confirm", message="Passwords must match"),
+        ],
+    )
     password_confirm = PasswordField("Confirm password", validators=[DataRequired()])
 
     submit = SubmitField("Create Account")
 
-    def validate_username(self,field):
+    def validate_username(self, field):
         username = field.data
 
         if (username.islower() == False) or (username.isalnum() == False):
             raise ValidationError("Username must be alphanumeric and lowercase")
 
+
 class ChangePasswordForm(FlaskForm):
-    currentpassword = PasswordField("Current Password", validators = [DataRequired()])
+    currentpassword = PasswordField("Current Password", validators=[DataRequired()])
     new_password = PasswordField("New password", validators=[DataRequired()])
-    new_password_confirm = PasswordField("Confirm new password", validators=[DataRequired(), EqualTo('new_password', message="Passwords must match")])
+    new_password_confirm = PasswordField(
+        "Confirm new password",
+        validators=[
+            DataRequired(),
+            EqualTo("new_password", message="Passwords must match"),
+        ],
+    )
 
     submit = SubmitField("Change password")
 
     def validate_currentpassword(self, field):
-        if current_user.check_password(field.data) == False :
+        if current_user.check_password(field.data) == False:
             raise ValidationError("Current password is incorrect")

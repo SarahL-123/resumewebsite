@@ -20,7 +20,7 @@ app.config["SQLALCHEMY_DATABASE_URI"] = os.environ.get(
 ) or "sqlite:///" + os.path.join(basedir, "mydatabase.db")
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 
-#I put the S3 keys in here
+# I put the S3 keys in here
 app.config.from_object("config")
 
 # Set up the database and migrations

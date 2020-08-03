@@ -175,7 +175,6 @@ def deletepage(pagetitle):
         # Delete from s3
         delete_file_from_s3(pic.filename)
 
-
     # Then, delete from the project table
     db.session.delete(project)
     db.session.commit()
@@ -210,7 +209,6 @@ def savePictures(picturedata, projectprimarykey, counter=0, forhomepage=False):
             # Save to S3 bucket
             file.filename = filename
             upload_file_to_s3(file)
-
 
             counter = counter + 1
 
@@ -280,16 +278,19 @@ def createaccount():
             message = "You didn't set up the environment variables"
             print("env variables not set up")
             return render_template("createuser.html", form=form, message=message)
-    
+
         # 2) check that it's actually correct
-        if (form.CREATE_ACC_ID.data != CREATE_ACC_ID_ENV) or (check_password_hash(CREATE_ACC_PW_HASH_ENV, form.CREATE_ACC_PW.data) == False):
+        if (form.CREATE_ACC_ID.data != CREATE_ACC_ID_ENV) or (
+            check_password_hash(CREATE_ACC_PW_HASH_ENV, form.CREATE_ACC_PW.data)
+            == False
+        ):
             # doesn't match
             message = "Incorrect environment variables"
-            
+
             return render_template("createuser.html", form=form, message=message)
 
         # 3) check that the username doesn't already exist
-        
+
         if AdminUser.query.filter_by(username=form.username.data).first():
             message = "This username already exists"
             return render_template("createuser.html", form=form, message=message)
@@ -298,7 +299,7 @@ def createaccount():
         # hashing is done by the constructor of the admin user object so I just put in the password directly
         username = form.username.data
         password = form.password.data
-        
+
         newuser = AdminUser(username, password)
         db.session.add(newuser)
         db.session.commit()
@@ -306,9 +307,7 @@ def createaccount():
         # redirect to home for now
         print("created user")
         return redirect(url_for("core.home"))
-    
 
-    
     return render_template("createuser.html", form=form)
 
 
@@ -320,7 +319,7 @@ def changepassword():
     if form.validate_on_submit():
         # check if the current password is correct and if the new pws match
         # this is done in the validation on the form
-        
+
         newpasswordhash = generate_password_hash(form.new_password.data)
 
         # hash it and update the database
@@ -329,6 +328,3 @@ def changepassword():
         db.session.commit()
         return redirect(url_for("core.home"))
     return render_template("changepassword.html", form=form)
-
-
-

@@ -1,6 +1,5 @@
-# This script adds an admin user to the database
-# run it from the console
-# note that all admins can edit everything (since I never intended to have multiple admins anyway)
+# This script adds an admin user to the database, locally.
+# It's just for testing purposes.
 
 from app_stuff import app, db
 from app_stuff.models import AdminUser

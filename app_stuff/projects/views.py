@@ -34,13 +34,13 @@ def projectpage(project_name):
     plaintext = myproject.text
     formattedtext = textile.textile(plaintext)
 
-    print(app.config['S3_LOCATION'])
+    print(app.config["S3_LOCATION"])
     return render_template(
         "oneproject.html",
         project=myproject,
         piclist=pictures,
         formattedtext=formattedtext,
-        S3_LOCATION = app.config['S3_LOCATION']
+        S3_LOCATION=app.config["S3_LOCATION"],
     )
 
 
