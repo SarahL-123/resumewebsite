@@ -53,11 +53,6 @@ def home():
     return render_template("home.html", data_tuple=project_image_tuple)
 
 
-@core_blueprint.route("/about")
-def about():
-    return render_template("about.html")
-
-
 @core_blueprint.app_errorhandler(404)
 def error404(e):
     return render_template("404.html"), 404

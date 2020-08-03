@@ -2,11 +2,13 @@ from flask import Blueprint, render_template, redirect, url_for, request, flash,
 import os
 from flask_login import current_user, login_user, logout_user, login_required
 from is_safe_url import is_safe_url
+import os
+from werkzeug.security import check_password_hash, generate_password_hash
 
 # import my own stuff
 from app_stuff import db, app, pic_directory
 from app_stuff.models import Project, Image, AdminUser
-from .forms import AddPageForm, EditPageForm, LoginForm, DeletePageForm
+from .forms import *
 from .s3helpers import delete_file_from_s3, upload_file_to_s3
 
 admin_blueprint = Blueprint("admin", __name__, template_folder="templates")
@@ -253,3 +255,79 @@ def logout():
 @admin_blueprint.app_errorhandler(404)
 def error404(e):
     return render_template("404.html"), 404
+
+
+@admin_blueprint.route("createaccount", methods=["GET", "POST"])
+def createaccount():
+    form = CreateUserForm()
+
+    if form.validate_on_submit():
+        print("test")
+        # check that the username is actually valid
+
+        # 1) check if the environment variables are present
+        # I'm not sure if this is actually the best way to make sure only I can create an account
+        # But it's the only way I could think of
+
+        CREATE_ACC_ID_ENV = os.getenv("CREATE_ACC_ID")
+        CREATE_ACC_PW_HASH_ENV = os.getenv("CREATE_ACC_PW_HASH")
+
+        print(CREATE_ACC_ID_ENV)
+        print(CREATE_ACC_PW_HASH_ENV)
+
+        if (CREATE_ACC_ID_ENV is None) or (CREATE_ACC_PW_HASH_ENV is None):
+            # tell user that they need to set up these variables
+            message = "You didn't set up the environment variables"
+            return render_template("createuser.html", form=form, message=message)
+    
+        # 2) check that it's actually correct
+        if (form.CREATE_ACC_ID.data != CREATE_ACC_ID_ENV) or (check_password_hash(CREATE_ACC_PW_HASH_ENV, form.CREATE_ACC_PW.data) == False):
+            # doesn't match
+            message = "Incorrect environment variables"
+            
+            return render_template("createuser.html", form=form, message=message)
+
+        # 3) check that the username doesn't already exist
+        
+        if AdminUser.query.filter_by(username=form.username.data).first():
+            message = "This username already exists"
+            return render_template("createuser.html", form=form, message=message)
+
+        # 4) Hash the password and create the user
+        # hashing is done by the constructor of the admin user object so I just put in the password directly
+        username = form.username.data
+        password = form.password.data
+        
+        newuser = AdminUser(username, password)
+        db.session.add(newuser)
+        db.session.commit()
+
+        # redirect to home for now
+        print("created user")
+        return redirect(url_for("core.home"))
+    
+
+    
+    return render_template("createuser.html", form=form)
+
+
+@admin_blueprint.route("changepassword", methods=["GET", "POST"])
+@login_required
+def changepassword():
+    form = ChangePasswordForm()
+
+    if form.validate_on_submit():
+        # check if the current password is correct and if the new pws match
+        # this is done in the validation on the form
+        
+        newpasswordhash = generate_password_hash(form.new_password.data)
+
+        # hash it and update the database
+        thisuser = AdminUser.query.filter_by(username=current_user.username).first()
+        thisuser.password_hash = newpasswordhash
+        db.session.commit()
+        return redirect(url_for("core.home"))
+    return render_template("changepassword.html", form=form)
+
+
+

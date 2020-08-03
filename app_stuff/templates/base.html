@@ -34,9 +34,6 @@
             <li class="nav-item active">
               <a class="nav-link" href="{{url_for('core.home')}}">Home <span class="sr-only">(current)</span></a>
             </li>
-            <li class="nav-item active">
-              <a class="nav-link" href="{{url_for('core.about')}}">About<span class="sr-only">(current)</span></a>
-            </li>
             <li class="nav-item dropdown">
               <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 
@@ -45,7 +42,7 @@
                 {% if current_user.is_authenticated %}
                 <a class="dropdown-item" href="{{url_for('admin.logout')}}">Logout</a>
                 <a class="dropdown-item" href="{{url_for('admin.addpage')}}">Add a page</a>
-                
+                <a class="dropdown-item" href="{{url_for('admin.changepassword')}}">Change password</a>
                 {% else %}
                 <a class="dropdown-item" href="{{url_for('admin.login')}}">Login</a>
                 {% endif %}
@@ -59,6 +56,8 @@
         {% block content %}
 
         {% endblock %}
+
+        
 
   </div>
 

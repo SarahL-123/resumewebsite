@@ -1,0 +1,67 @@
+{% extends "base.html" %}
+
+{% block title%}
+    <title>Create User</title>
+{% endblock %}
+
+{% block content %}
+    <div class="textcontainer">
+        <h2>Create a new user</h2>
+
+        
+
+        <form method="POST", enctype="multipart/form-data">
+            {{form.hidden_tag()}}
+
+            <p>Please set up the environment variables in order to create a user</p>
+            <div class="form-group">
+                {{form.CREATE_ACC_ID.label(class="form-control-label")}}
+                {{form.CREATE_ACC_ID(class="form-control")}}
+            </div>
+            
+            <div class="form-group">
+                {{form.CREATE_ACC_PW.label(class="form-control-label")}}
+                {{form.CREATE_ACC_PW(class="form-control")}}
+                
+            </div>
+
+            <div class="form-group">
+                {{form.username.label(class="form-control-label")}}
+                {{form.username(class="form-control")}}
+
+                {% for error in form.errors['username'] %}
+                    <div class="error" style="color: red;">{{ error }}</div>
+                {% endfor %}
+                
+            </div>
+
+            <div class="form-group">
+                {{form.password.label(class="form-control-label")}}
+                {{form.password(class="form-control")}} 
+                
+                {% for error in form.errors['password'] %}
+                    <div class="error" style="color: red;">{{ error }}</div>
+                {% endfor %}
+            </div>
+        
+            <div class="form-group">
+                {{form.password_confirm.label(class="form-control-label")}}
+                {{form.password_confirm(class="form-control")}}
+
+                
+
+            </div>
+
+            {% if message is defined %}
+                <h2 style="color: red;">{{message}}</h2>
+            {% endif %}
+
+            {{form.submit(class="btn btn-primary")}}
+        
+        </form>
+
+
+
+    </div>
+
+{% endblock %}
