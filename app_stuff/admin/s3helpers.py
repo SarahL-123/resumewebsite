@@ -17,7 +17,7 @@ s3 = boto3.client(
 # https://www.zabana.me/notes/flask-tutorial-upload-files-amazon-s3
 def upload_file_to_s3(file, bucket_name=S3_BUCKET, acl="public-read"):
 
-    print("uploading" + str(file.filename))
+    print("uploading " + str(file.filename) + " to " + str(S3_LOCATION))
 
     try:
 
