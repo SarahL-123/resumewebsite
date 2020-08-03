@@ -11,7 +11,7 @@ from app_stuff.models import AdminUser
 # Set up the app
 app = Flask(__name__)
 
-app.config["SECRET_KEY"] = os.getenv("SECRET_KEY")  # update this later
+app.config["SECRET_KEY"] = os.getenv("SECRET_KEY")
 
 basedir = os.path.abspath(os.path.dirname(__file__))
 app.config["SQLALCHEMY_DATABASE_URI"] = os.environ.get(
