@@ -1,8 +1,17 @@
-This is my first Flask app, it's a website for my resume.
+This was the code for my first Flask app, which was a website for my resume.
+It was deployed on heroku.
+However, it's not active anymore because I didn't want to pay for Amazon S3's storage,
+after the end of the free trial.
 
-Yes the code is really messy.
+Main features
+- Uses SQL database to dynamically add and remove pages (don't need to change the code)
+- Stores images on Amazon S3 (including letting me upload and download).
+- Has a login system so only I am able to make changes.
 
-To set it up do the following (this is a reminder for future me, in case I forget)
+------------------------------------------------------------------------------------
+
+Setup instructions
+To set it up do the following
 
 Setting up database
 1) navigate inside 'Sarahs_webpage' using command line
